@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
-import { BookCard } from "./components/BookCard";
-import { SearchInput } from "./components/SearchInput";
+import {useEffect, useState} from "react";
+import {BookCard} from "./components/BookCard";
+import {SearchInput} from "./components/SearchInput";
 import axios from "axios";
+import {LoadingBook} from "./components/LoadingBook";
 function App() {
- const [book,setBook] = useState({
-    books : [],
-    pagination : {}
- });
-  const api = import.meta.env.VITE_API_URL;
-  useEffect(()=>{
-    const request = async()=>{
-      const res = await axios.get(`${api}`);
-      const data = res.data;
-      setBook(data)
-    }
-    request();
-  },[])
+    const [book, setBook] = useState({
+        books: [],
+        pagination: {},
+    });
+    const [loading, setLoading] = useState(true);
+    const api = import.meta.env.VITE_API_URL;
+    useEffect(() => {
+        const request = async () => {
+            const res = await axios.get(`${api}`);
+            const data = res.data;
+            setBook(data);
+            setLoading(false);
+        };
+        request();
+    }, []);
     return (
         <>
             {/* Header */}
@@ -28,13 +31,17 @@ function App() {
             {/* Main Content */}
             <div className="container">
                 {/* Search Section */}
-              <SearchInput/>
+                <SearchInput />
                 {/* Books Container */}
                 <div className="books-container">
                     {/* Removed dynamic book rendering - add your books here */}
-                   {book.books.map((el,index)=>{
-                    return (<BookCard key={index} data={el}/>)
-                   })}
+                    {loading ? (
+                        <LoadingBook />
+                    ) : (
+                        book.books.map((el, index) => {
+                            return <BookCard key={index} data={el} />;
+                        })
+                    )}
                 </div>
             </div>
         </>
