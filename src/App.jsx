@@ -8,8 +8,11 @@ function App() {
         books: [],
         pagination: {},
     });
+    const [keyword,setKeyword] = useState("");
     const [loading, setLoading] = useState(true);
+    
     const api = import.meta.env.VITE_API_URL;
+    
     useEffect(() => {
         const request = async () => {
             const res = await axios.get(`${api}`);
@@ -19,6 +22,10 @@ function App() {
         };
         request();
     }, []);
+
+    const handleKeyword = (value)=>{
+        setKeyword(value);
+    }
     return (
         <>
             {/* Header */}
@@ -31,8 +38,9 @@ function App() {
             {/* Main Content */}
             <div className="container">
                 {/* Search Section */}
-                <SearchInput />
+                <SearchInput onKeyword={handleKeyword}/>
                 {/* Books Container */}
+                    <p className="text-sm text-bold">keyword : {keyword}</p>
                 <div className="books-container">
                     {/* Removed dynamic book rendering - add your books here */}
                     {loading ? (
