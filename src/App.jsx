@@ -8,11 +8,12 @@ function App() {
         books: [],
         pagination: {},
     });
-    const [keyword,setKeyword] = useState("");
+    const [keyword, setKeyword] = useState("");
     const [loading, setLoading] = useState(true);
-    
+    const [isEmpty, setIsEmpty] = useState(false);
+
     const api = import.meta.env.VITE_API_URL;
-    
+
     useEffect(() => {
         const request = async () => {
             const res = await axios.get(`${api}`);
@@ -23,9 +24,25 @@ function App() {
         request();
     }, []);
 
-    const handleKeyword = (value)=>{
+    useEffect(() => {
+        const request = async () => {
+            const res = await axios.get(`${api}?keyword=${keyword}`);
+            const data = res.data;
+            if (data.books.length === 0) {
+                setIsEmpty(true);
+            } else {
+                setIsEmpty(false);
+            }
+            setBook(data);
+            setLoading(false);
+        };
+        request();
+    }, [keyword]);
+
+    const handleKeyword = (value) => {
         setKeyword(value);
-    }
+        setLoading(true);
+    };
     return (
         <>
             {/* Header */}
@@ -38,13 +55,15 @@ function App() {
             {/* Main Content */}
             <div className="container">
                 {/* Search Section */}
-                <SearchInput onKeyword={handleKeyword}/>
+                <SearchInput onKeyword={handleKeyword} />
                 {/* Books Container */}
-                    <p className="text-sm text-bold">keyword : {keyword}</p>
+                <p className="text-sm text-bold">keyword : {keyword}</p>
                 <div className="books-container">
                     {/* Removed dynamic book rendering - add your books here */}
                     {loading ? (
                         <LoadingBook />
+                    ) : isEmpty ? (
+                        <span>tidak ada buku dengan keyword {keyword}</span>
                     ) : (
                         book.books.map((el, index) => {
                             return <BookCard key={index} data={el} />;
