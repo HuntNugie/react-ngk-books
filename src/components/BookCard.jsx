@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
 export const BookCard = ({data}) => {
+    const navigate = useNavigate();
+    const handleKlik = (e)=>{
+        const id = e.currentTarget.dataset.id;
+        navigate(`/detail/${id}`)
+    }
+
     return (
-        <div className="book-card">
+        <div className="book-card" onClick={handleKlik} data-id={data._id}>
             <div className="book-image">
                 <img
                     src={data.cover_image}

@@ -8,7 +8,7 @@ function App() {
             <Routes>
                 {/* untuk detail */}
                 <Route element={<DetailLayout />}>
-                    <Route path="/detail" element={<Detail />} />
+                    <Route path="/detail/:id" element={<Detail />} />
                 </Route>
                 <Route path="/" element={<Index/>} />
             </Routes>
