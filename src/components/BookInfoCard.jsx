@@ -1,10 +1,10 @@
-export const BookInfoCard = () => {
+export const BookInfoCard = ({data}) => {
     return (
         <div className="book-info">
-            <h1 className="book-title">7 Tips Sukses Kinclong Cari Kerja di Luar Negeri</h1>
-            <p className="book-author">Oleh: Yulita Wibowo</p>
-            <span className="book-category">Self-Improvement</span>
-            <p className="book-price">Rp 130,000</p>
+            <h1 className="book-title">{data.title}</h1>
+            <p className="book-author">Oleh: {data.author.name || "kosong"}</p>
+            <span className="book-category">{data.category.name}</span>
+            <p className="book-price">Rp {data.details.price}</p>
             {/* Details Grid */}
             <div className="details-grid">
                 <div className="detail-item">
@@ -13,19 +13,19 @@ export const BookInfoCard = () => {
                 </div>
                 <div className="detail-item">
                     <div className="detail-label">Jumlah Halaman</div>
-                    <div className="detail-value">231 pages</div>
+                    <div className="detail-value">{data.details.total_pages}</div>
                 </div>
                 <div className="detail-item">
                     <div className="detail-label">Ukuran</div>
-                    <div className="detail-value">13,5 x 20 cm</div>
+                    <div className="detail-value">{data.details.size}</div>
                 </div>
                 <div className="detail-item">
                     <div className="detail-label">Tanggal Terbit</div>
-                    <div className="detail-value">31 May 2023</div>
+                    <div className="detail-value">{data.details.published_date}</div>
                 </div>
                 <div className="detail-item">
                     <div className="detail-label">Format</div>
-                    <div className="detail-value">Soft Cover</div>
+                    <div className="detail-value">{data.details.format}</div>
                 </div>
             </div>
         </div>

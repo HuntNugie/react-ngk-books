@@ -1,7 +1,7 @@
-export const Tag = () => {
+export const Tag = ({data}) => {
     return (
         <>
-            <span className="tag">Self Improvement</span>
+            <span className="tag">{data.name}</span>
         </>
     );
 };
